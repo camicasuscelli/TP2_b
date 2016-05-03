@@ -78,15 +78,16 @@ public class Ordenadora {
 
 	public static void shell(int[] vector) {
 		// Shell tendrá gráfico aparte.
-		int n = vector.length, i = 0, j, h = 0, x, p, pos, aux; // n=cantidad de
-																// numeros que
-																// tiene vector.
+		int n = vector.length, i = 0, j, br = 0, h = 0, p, pos, paux, aux; // n=cantidad
+																			// de
+		// numeros que
+		// tiene vector.
 		// cargo la serie h(i) = h(i-1)*3 + 1.
 		int[] vecSerie = { 1, 4, 13, 40, 121, 364, 1093, 3280, 9841, 29524 };
 		while (vecSerie[i] < n) {
 			i++; // quiero saber desde qué H empezar a hacer el método.
 		}
-		p = i-1;
+		p = i - 1;
 		System.out.println("holu");
 		// con este for recorro los h para saber cómo dividir al vector.
 		for (i = p; i > -1; i--) {
@@ -95,30 +96,25 @@ public class Ordenadora {
 			// grupo.
 			for (j = 0; j < h; j++) {
 				pos = j;
-				// de adelante para atras.
-				for (x = 0; x < (n / h); x++) { // este indica los grupos que
-												// hay.
-					// lo hacemos para adelante.
-					// luego deberíamos comparar de atras para adelante.
-					if ((pos+h)<n&& vector[pos] > vector[pos + h]) {
-						// cambio sus posiciones.
-						aux=vector[pos];
-						vector[pos]=vector[pos+h];
-						vector[pos+h]=aux;
-
+				while (pos < n) {
+					br = 0;
+					paux = pos;
+					aux = vector[paux];
+					while (paux - h >= 0 && br == 0) { // acá voy a comparar con
+														// los elementos y
+														// desplazar en caso de
+														// que se pueda.
+						if (aux < vector[paux - h]) {
+							vector[paux] = vector[paux - h];
+							paux = paux - h;
+						} else
+							br = 1;
+						vector[paux] = aux;
 					}
+
 					pos += h;
 				}
-				// de atras para adelante.
-				for (x = 0; x < (n / h); x++) {
-					if (pos<n&&(pos-h)>0 && vector[pos] < vector[pos - h]) {
-						// cambio posiciones
-						aux=vector[pos];
-						vector[pos]=vector[pos-h];
-						vector[pos-h]=aux;
-					}
-					pos -= h;
-				}
+
 			}
 		}
 
@@ -139,7 +135,7 @@ public class Ordenadora {
 
 	public static void main(String[] arg) {
 		int[] array = cargarVector("myArrayInt.in");
-		//ordenarPorBurbujeo(array);
+		// ordenarPorBurbujeo(array);
 		shell(array);
 		for (int i = 0; i < array.length; i++) {
 			System.out.println(array[i]);
